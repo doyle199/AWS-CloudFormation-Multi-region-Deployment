@@ -1,1 +1,0 @@
-# AWS-CloudFormation-Multi-region-Deployment
