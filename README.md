@@ -108,45 +108,16 @@ Next, open the CreateVpc.yaml file in a text editor and delete the following lin
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Parameters_1.png?raw=true)
 
 Then replace the first line below with the three lines below it.
-•	AvailabilityZone: !Ref AzName
-•	AvailabilityZone: !Select
-•	  - 0
-•	  - !GetAZs ""
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Availability_1.png?raw=true)
 
 This allows the template to automatically select an AZ using the Select and GetAZs functions in CloudFormation. 
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC.yaml_Edit_1.png?raw=true)
 
 Next, replace the first set of three groups of lines under the SubnetId, VpcId, and AzName with the second set of three groups of lines below them. 
-•	SubnetId:
-•	    Description: Subnet Id
-•	    Value: !Ref PublicSubnet
-•	
-•	  VpcId:
-•	    Description: Vpc Id
-•	    Value: !GetAtt PublicSubnet.VpcId
-•	
-•	  AzName:
-•	    Description: Subnet Availability Zone
-•	    Value: !GetAtt PublicSubnet.AvailabilityZone
 
-•	SubnetId:
-•	    Description: Subnet Id
-•	    Value: !Ref PublicSubnet
-•	    Export:
-•	      Name: SubnetId
-•	
-•	  VpcId:
-•	    Description: Vpc Id
-•	    Value: !GetAtt PublicSubnet.VpcId
-•	    Export:
-•	      Name: VpcId
-•	
-•	  AzName:
-•	    Description: Subnet Availability Zone
-•	    Value: !GetAtt PublicSubnet.AvailabilityZone
-•	    Export:
-•	      Name: AzName
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/SubnetID_1.png?raw=true)
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC.yaml_Edit_2.png?raw=true)
 
