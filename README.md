@@ -10,3 +10,6 @@ After the two regions are chosen one must locate the IAM account ID number. It c
 In order to deploy effectively across regions, one must first set up two IAM roles to be used for AWS CloudFormation StackSets. These two IAM role are AWSAWSCloudFormationStackSetAdministrationRole and AWSCloudFormationStackSetExecutionRole. To create these roles, one must deploy two AWS CloudFormation templates. If the role doesn’t exist navigate to the AWS CloudFormation console. Make sure you’re in one’s administrative region, which in this case is N. Virginia, and click create stack.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/AWS_CloudFormation_StackSet_Administration_%20Role_Create_Stack.png?raw=true)
+
+For the specify template section, select template is ready and Amazon S3 URL. Paste the following URL into the Amazon S3 URL box: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml. After it’s ready click next.
+
