@@ -1,4 +1,6 @@
 # AWS-CloudFormation-Multi-region-Deployment
+
+__AWS CloudFormation Dual-Region StackSets Deployment__
 	
 To demonstrate the power of AWS CloudFormation, the following will detail the process of deploying a dual-region StackSet. Before one can begin creating AWS CloudFormation StackSets, one must have access to an AWS account with administrator access. It is best practice to make an IAM user with the correct access instead of using the root account. To do this navigate to the IAM console and create a new user. Give the user a name, the correct access, in this case administrative access, and a password. For this demonstration the user name will be CCA670Admin. Once this is complete log in as the new user.
 	
