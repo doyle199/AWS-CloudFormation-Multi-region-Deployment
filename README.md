@@ -52,7 +52,7 @@ On the specify StackSet details page, name the stack EnableCloudTrail, leave the
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Enable_CloudTrail_Specify_StackSet_Details.png?raw=true)
 
-On the configure StackSet options page, click on self-service permissions and choose the AWSCloudFormationStackSetAdministrationRole. Make sure the AWSCloudFormatioStack-SetExecutionRole is in the box for IAM execution and click next.
+On the configure StackSet options page, click on self-service permissions and choose the AWSCloudFormationStackSetAdministrationRole. Make sure the AWSCloudFormatioStackSetExecutionRole is in the box for IAM execution and click next.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Enable_CloudTrial_Configure_StackSet_Options.png?raw=true)
 
