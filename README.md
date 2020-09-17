@@ -14,3 +14,6 @@ In order to deploy effectively across regions, one must first set up two IAM rol
 For the specify template section, select template is ready and Amazon S3 URL. Paste the following URL into the Amazon S3 URL box: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml. After it’s ready click next.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/AWS_CloudFormation_StackSet_Administration_Role_Specify_Template.png?raw=true)
+
+For the specify stack details section enter StacksetAdministrationRole for the stack name and click next.
+
