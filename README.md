@@ -202,5 +202,29 @@ Find the output section and add the following lines.
 
 Save the LampParent.yaml file and deploy it as a stack in AWS CloudFormation in the administrative region like before. When it’s complete, in the stack output tab you can see an automatically created password eight characters long next to DbRootPassword. 
 
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Stack_Create_Complete.png?raw=true)
+
+Once one has confirmed it works, delete the stack. Now deploy the LampParent.yaml file as a StackSet. Wait for its completion. Check the LampParent StackSet operations tab for a green succeeded statement. Then click the stack instances tab to see that the two instances are in a green current status. To make sure the StackSet deployed to both target regions navigate to CloudFormation in both N. Virginia and Oregon and check the stacks for a green create complete status. Each stack also shows that it has a unique password eight characters long because of the file edit. One can also check the two regions to see the running instances and VPCs. 
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_StackSet_Operations.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_StackSet_Stack_Instances.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Stack_Outputs_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Stack_Outputs_Oregon.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Stack_Instance_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Stack_Instance_Oregon.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Stack_VPC_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Stack_VPC_Oregon.png?raw=true)
+
+To clean up the resources used, navigate to the StackSets in the administrative region. In a StackSet click on the actions dropdown and choose delete Stacks form the StackSet. After that completes the StackSet can be deleted. Delete any remaining stacks in both regions and any relevant S3 buckets.
+
+After fallowing these steps, one has deployed a dual-region environment using AWS CloudFormation StackSets. Both regions had a LAMP stack created which included a VPC and Amazon Linux 2 in each region. 
+
 
 
