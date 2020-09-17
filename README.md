@@ -17,3 +17,7 @@ For the specify template section, select template is ready and Amazon S3 URL. Pa
 
 For the specify stack details section enter StacksetAdministrationRole for the stack name and click next.
 
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/AWS_CloudFormation_StackSet_Administration_Role_Specify_Stack_Details.png?raw=true)
+
+Leave the defaults on the configure stack options page and click Next. On the review page check the acknowledge box and click create stack.
+
