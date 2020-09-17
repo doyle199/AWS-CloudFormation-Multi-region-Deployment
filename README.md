@@ -83,3 +83,121 @@ After the Object URL is copied, navigate back to CloudFormation StackSets. Click
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Amazon_S3_URL.png?raw=true)
 
 This time the StackSet deployment will succeed. Check the EnableCloudTrail operations tab for a green succeeded statement. Then click the stack instances tab to see that the two instances are in a green current status. To make sure the StackSet deployed to both target regions navigate to both regions and check the Stacks for a green create complete status. 
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Operations.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Stack_Instances.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Create_Complete_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Create_Complete_Oregon.png?raw=true)
+
+Once the EnableCloudTrail StackSet is complete it is time to create the CreateVPC StackSet. First download this file to ones workstation https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/CreateVpc.yaml. Make sure the file ends with the extension yaml. Once the file is downloaded, navigate to the administrative region in AWS CloudFormation and click on create stack. Note, do not click on create StackSet. On the specify template page, select template is ready and click on upload a template file. Choose the yaml file that was just downloaded and click next.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Specify_Tempalte.png?raw=true)
+
+On the specify stack details page, name the stack CreateVPC and choose a subnet Availability Zone (AZ). When it’s ready click next.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Specify_Stack_Details.png?raw=true)
+
+On the configure stack options page, leave the defaults and click Next. On the review page, click create stack. Once the stack is completed and one has seen that it will work, click on the CreateVpc stack and delete it. 
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_1.png?raw=true)
+
+Next, open the CreateVpc.yaml file in a text editor and delete the following lines:
+•	Parameters:
+•	  AzName:
+•	    Type: AWS::EC2::AvailabilityZone::Name
+•	    Description: Subnet Availability Zone
+
+Then replace the first line below with the three lines below it.
+•	AvailabilityZone: !Ref AzName
+•	AvailabilityZone: !Select
+•	  - 0
+•	  - !GetAZs ""
+
+This allows the template to automatically select an AZ using the Select and GetAZs functions in CloudFormation. 
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC.yaml_Edit_1.png?raw=true)
+
+Next, replace the first set of three groups of lines under the SubnetId, VpcId, and AzName with the second set of three groups of lines below them. 
+•	SubnetId:
+•	    Description: Subnet Id
+•	    Value: !Ref PublicSubnet
+•	
+•	  VpcId:
+•	    Description: Vpc Id
+•	    Value: !GetAtt PublicSubnet.VpcId
+•	
+•	  AzName:
+•	    Description: Subnet Availability Zone
+•	    Value: !GetAtt PublicSubnet.AvailabilityZone
+
+•	SubnetId:
+•	    Description: Subnet Id
+•	    Value: !Ref PublicSubnet
+•	    Export:
+•	      Name: SubnetId
+•	
+•	  VpcId:
+•	    Description: Vpc Id
+•	    Value: !GetAtt PublicSubnet.VpcId
+•	    Export:
+•	      Name: VpcId
+•	
+•	  AzName:
+•	    Description: Subnet Availability Zone
+•	    Value: !GetAtt PublicSubnet.AvailabilityZone
+•	    Export:
+•	      Name: AzName
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC.yaml_Edit_2.png?raw=true)
+
+This is done to allow a stack to be used by other stacks. After the edits are complete, save the file. Then navigate back to AWS CloudFormation and create a stack using the new file. Take note that it doesn’t ask for an AZ on the specify stack details page this time because of the changes made to the file. 
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_No_Parameters.png?raw=true)
+
+Continue through the steps and create the Stack. After you confirm it works, delete this stack as well.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_2.png?raw=true)
+
+Now it’s time to establish peering between the two Virtual Private Clouds (VPC)s by making sure each VPC has a unique Classless Interdomain Routing (CIDR) block in the 10.0.0.0/8 space. To do this one must create a way to use different CIDR blocks for each region in which a stack is deployed in an automatic manner. This can be done in CloudFormation using mappings. To get started, save this file to ones workstation https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml. Open the CreateVpc.yaml and Mappings.ymal on your workstation with an editor and paste the Mappings.yaml contents into the CreateVpc.yaml above the resources line. This is done to create a map named RegionMap that allows CloudFormation to use VpcCidr and SubnetCidr for the CIDR of the VPC and public subnet of each region.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Peering_Edit_1.png?raw=true)
+
+To tell CloudFormation to use the values in the RegionMap replace the first set of three groups of lines under the Vpc, PublicSubnet, and Properties with the second set of three groups of lines below them. 
+•	Vpc:
+•	    Type: AWS::EC2::VPC
+•	    Properties:
+•	      CidrBlock: 10.200.0.0/16
+•	      EnableDnsHostnames: 'true'
+•	
+•	  PublicSubnet:
+•	    Type: AWS::EC2::Subnet
+•	    Properties:
+•	      AvailabilityZone: !Ref AzName
+•	      CidrBlock: 10.200.11.0/24
+•	      MapPublicIpOnLaunch: 'true'
+•	      VpcId: !Ref Vpc
+
+•	Vpc:
+•	    Type: AWS::EC2::VPC
+•	    Properties:
+•	      CidrBlock: !FindInMap [ RegionMap, !Ref "AWS::Region", VpcCidr ]
+•	      EnableDnsHostnames: 'true'
+•	
+•	  PublicSubnet:
+•	    Type: AWS::EC2::Subnet
+•	    Properties:
+•	      AvailabilityZone: !Select
+•	        - 0
+•	        - !GetAZs ""
+•	      CidrBlock: !FindInMap [ RegionMap, !Ref "AWS::Region", SubnetCidr ]
+•	      MapPublicIpOnLaunch: 'true'
+•	      VpcId: !Ref Vpc
+
+When it’s ready, save the file.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Peering_Edit_2.png?raw=true)
+
+When it’s ready, save the file. Now navigate back to AWS CloudFormation to deploy the new CreateVpc.yaml file as a stack like before. Go through all the steps to deploy and wait for the Stack to complete. In the newly deployed stack, click on the outputs tab. It shows that it created a VpcCidr and chose an AZ automatically because of the edits made in the file. After one confirms this information, delete the stack.
+
