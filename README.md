@@ -104,10 +104,8 @@ On the configure stack options page, leave the defaults and click Next. On the r
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_1.png?raw=true)
 
 Next, open the CreateVpc.yaml file in a text editor and delete the following lines:
-Parameters
-  AzName:
-    Type: AWS::EC2::AvailabilityZone::Name
-    Description: Subnet Availability Zone
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Parameters_1.png?raw=true)
 
 Then replace the first line below with the three lines below it.
 •	AvailabilityZone: !Ref AzName
