@@ -134,39 +134,73 @@ Now it’s time to establish peering between the two Virtual Private Clouds (VPC
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Peering_Edit_1.png?raw=true)
 
 To tell CloudFormation to use the values in the RegionMap replace the first set of three groups of lines under the Vpc, PublicSubnet, and Properties with the second set of three groups of lines below them. 
-•	Vpc:
-•	    Type: AWS::EC2::VPC
-•	    Properties:
-•	      CidrBlock: 10.200.0.0/16
-•	      EnableDnsHostnames: 'true'
-•	
-•	  PublicSubnet:
-•	    Type: AWS::EC2::Subnet
-•	    Properties:
-•	      AvailabilityZone: !Ref AzName
-•	      CidrBlock: 10.200.11.0/24
-•	      MapPublicIpOnLaunch: 'true'
-•	      VpcId: !Ref Vpc
 
-•	Vpc:
-•	    Type: AWS::EC2::VPC
-•	    Properties:
-•	      CidrBlock: !FindInMap [ RegionMap, !Ref "AWS::Region", VpcCidr ]
-•	      EnableDnsHostnames: 'true'
-•	
-•	  PublicSubnet:
-•	    Type: AWS::EC2::Subnet
-•	    Properties:
-•	      AvailabilityZone: !Select
-•	        - 0
-•	        - !GetAZs ""
-•	      CidrBlock: !FindInMap [ RegionMap, !Ref "AWS::Region", SubnetCidr ]
-•	      MapPublicIpOnLaunch: 'true'
-•	      VpcId: !Ref Vpc
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/VPC_1.png?raw=true)
 
 When it’s ready, save the file.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Peering_Edit_2.png?raw=true)
 
 When it’s ready, save the file. Now navigate back to AWS CloudFormation to deploy the new CreateVpc.yaml file as a stack like before. Go through all the steps to deploy and wait for the Stack to complete. In the newly deployed stack, click on the outputs tab. It shows that it created a VpcCidr and chose an AZ automatically because of the edits made in the file. After one confirms this information, delete the stack.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Stack_Outputs.png?raw=true)
+
+Now it’s time to deploy the CreateVpc.yaml as a StackSet by selecting the template is ready and the uploading the template file options on the choose a template page. On the specify StackSet details page give the StackSet the name CreateVpc then click next. On the configure StackSet options page, click on self-service permissions and choose the AWSCloudFormation-StackSetAdministrationRole. Make sure the AWSCloudFormatio-StackSetExecutionRole is in the box for IAM execution and click next. On the set deployment options page, choose deploy stacks in accounts and enter your IAM account ID number in the box. Scroll down to the specify regions section and add the two regions. For this demonstration the regions are N Virginia and Oregon. Leave the rest at defaults at click next. On the last page review and then click submit. 
+
+Check the CreateVpc operations tab for a green succeeded statement. Then click the stack instances tab to see that the two instances are in a green current status. To make sure the StackSet deployed to both target regions navigate to CloudFormation in both N. Virginia and Oregon and check the Stacks for a green create complete status. Each stack also shows that it created a VpcCidr and chose an AZ in the Outputs tab.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Operations.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Stack_Instances.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_Oregon.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_StackSet_Outputs_N.Virginia.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_StackSet_Outputs_Oregon.png?raw=true)
+
+Now that the CreateVpc StackSet is deployed and working, it’s time to create the LAMP StackSet. To get started, download this file to your workstation: https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Lamp.yaml. This LAMP file will have a parent stack created to build out the Lamp.yaml as a nested stack. The parent stack will import the AzName, VpcId, and SubnetId values form the CreateVpc StackSet. When you use nested stacks the stack template must be in an S3 bucket in the same region. Next, download this file to your workstation: 
+https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/LampParent.yaml. The file uses the ImportValue intrinsic function for AzName, VpcId, and SubnetId from the CreateVpc StackSet in the region.
+
+Let’s set up an S3 bucket. Navigate to S3 and create a bucket. Upload the Lamp.yaml file to the bucket and copy the Object URL in the overview tab. Once one has copied the Object URL, open LampParent.yaml in a text editor. Replace the S3 Object URL in the resources section with the one that was copied. When ready, save the edited LampParent.yaml file.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/S3_LampParent.yaml_File_Edit.png?raw=true)
+
+Deploy the edited LampPartent.yaml as a stack in the administrative region. On the specify stack details page, name the stack LampParent and create a password. Once it’s ready click next.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent.yaml_Specify_Stack_Details.png?raw=true)
+
+Go through the rest of the setup and check the two acknowledgement boxes on the review page. Once everything is ready, click create stack.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent.yaml_Acknowledgements.png?raw=true)
+
+After deployment completes, click the outputs tab and then click on the LampInstaceUrl to display the working test webpage.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_LampInstanceURL.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Working_Test_Webpage.png?raw=true)
+
+Once it is confirmed to be working, delete the LampParent Stack, this will also delete the nested stack. Next, it’s time to have AWS CloudFormation generate random string passwords with a minimum length of eight alphabetic characters. To get started, download the Random.yaml file to your workstation: https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Random.yaml. This will allow a Lambda function to create a password. 
+
+Open the updated LampParent.yaml file in a text editor and remove the entire parameters section. Then insert all of the Random.yaml file contents into the LampParent.yaml file just below the Resources line.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Random_File_Edit.png?raw=true)
+
+In the editor, locate the LampStack resource section and replace this first line with the second line.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/DBRootPassword.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_File_Edit.png?raw=true)
+
+Find the output section and add the following lines.
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/DBPassword2.png?raw=true)
+
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_File_Edit_2.png?raw=true)
+
+Save the LampParent.yaml file and deploy it as a stack in AWS CloudFormation in the administrative region like before. When it’s complete, in the stack output tab you can see an automatically created password eight characters long next to DbRootPassword. 
+
+
 
