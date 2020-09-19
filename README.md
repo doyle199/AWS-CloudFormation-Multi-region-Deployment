@@ -59,7 +59,7 @@ On the configure StackSet options page, click on self-service permissions and ch
 
 On the set deployment options page, choose deploy stacks in accounts and enter your IAM account ID number in the box. Scroll down to the specify regions section and add the two regions. For this demonstration the regions are N Virginia and Oregon. Leave the rest at defaults and click next.
 
-![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Enable_CloudTrail_Set_Deployment_Options_1.png?raw=true)
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Enable_Cloud_Trail_Set_Deployment_Options_1_2.png?raw=true)
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/Enable_CloudTrail_Set_Deployment_Options_2.png?raw=true)
 
