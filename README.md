@@ -29,7 +29,7 @@ Once the stack completes, navigate to the IAM console and click on roles in the 
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/AWS_CloudFormation_StackSet_Execution_Role.png?raw=true)
 
-If the role doesn’t exist, navigate to the CloudFormation console. Make sure that one is in the administrative region and click create stack. For the specify template section, select template is ready and amazon S3 URL like before. Then enter the following URL into the Amazon S3 URL box: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml. After it’s ready click next.
+If the role doesn’t exist, navigate to the CloudFormation console. Make sure that one is in the administrative region and click create stack. For the specify template section, select template is ready and amazon S3 URL like before. Then paste the following URL into the Amazon S3 URL box: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml. After it’s ready click next.
 For the specify stack details page enter StacksetExecutionRole as the stack name. This time, one needs to enter the IAM account ID number in the parameters box and then click next.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/StackSet_Execution_Role_Specify_Stack_Details.png?raw=true)
@@ -91,7 +91,7 @@ This time the StackSet deployment will succeed. Check the EnableCloudTrail opera
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Create_Complete_Oregon.png?raw=true)
 
-Once the EnableCloudTrail StackSet is complete it is time to create the CreateVPC StackSet. First download this file to ones workstation https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/CreateVpc.yaml. Make sure the file ends with the extension yaml. Once the file is downloaded, navigate to the administrative region in AWS CloudFormation and click on create stack. Note, do not click on create StackSet. On the specify template page, select template is ready and click on upload a template file. Choose the yaml file that was just downloaded and click next.
+Once the EnableCloudTrail StackSet is complete it is time to create the CreateVPC StackSet. First download this file to ones workstation (right click and save as) https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/CreateVpc.yaml. Make sure the file ends with the extension yaml. Once the file is downloaded, navigate to the administrative region in AWS CloudFormation and click on create stack. Note, do not click on create StackSet. On the specify template page, select template is ready and click on upload a template file. Choose the yaml file that was just downloaded and click next.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Specify_Tempalte.png?raw=true)
 
@@ -129,7 +129,7 @@ Continue through the steps and create the Stack. After you confirm it works, del
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Create_Complete_2.png?raw=true)
 
-Now it’s time to establish peering between the two Virtual Private Clouds (VPC)s by making sure each VPC has a unique Classless Interdomain Routing (CIDR) block in the 10.0.0.0/8 space. To do this one must create a way to use different CIDR blocks for each region in which a stack is deployed in an automatic manner. This can be done in CloudFormation using mappings. To get started, save this file to ones workstation https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml. Open the CreateVpc.yaml and Mappings.ymal on your workstation with an editor and paste the Mappings.yaml contents into the CreateVpc.yaml above the resources line. This is done to create a map named RegionMap that allows CloudFormation to use VpcCidr and SubnetCidr for the CIDR of the VPC and public subnet of each region.
+Now it’s time to establish peering between the two Virtual Private Clouds (VPC)s by making sure each VPC has a unique Classless Interdomain Routing (CIDR) block in the 10.0.0.0/8 space. To do this one must create a way to use different CIDR blocks for each region in which a stack is deployed in an automatic manner. This can be done in CloudFormation using mappings. To get started, save this file to ones workstation (right click and save as) https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Mappings.yaml. Open the CreateVpc.yaml and Mappings.ymal on your workstation with an editor and paste the Mappings.yaml contents into the CreateVpc.yaml above the resources line. This is done to create a map named RegionMap that allows CloudFormation to use VpcCidr and SubnetCidr for the CIDR of the VPC and public subnet of each region.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Peering_Edit_1.png?raw=true)
 
@@ -161,7 +161,7 @@ Check the CreateVpc operations tab for a green succeeded statement. Then click t
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_StackSet_Outputs_Oregon.png?raw=true)
 
-Now that the CreateVpc StackSet is deployed and working, it’s time to create the LAMP StackSet. To get started, download this file to your workstation: https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Lamp.yaml. This LAMP file will have a parent stack created to build out the Lamp.yaml as a nested stack. The parent stack will import the AzName, VpcId, and SubnetId values form the CreateVpc StackSet. When you use nested stacks the stack template must be in an S3 bucket in the same region. Next, download this file to your workstation: 
+Now that the CreateVpc StackSet is deployed and working, it’s time to create the LAMP StackSet. To get started, download this file to your workstation(right click and save as) https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Lamp.yaml. This LAMP file will have a parent stack created to build out the Lamp.yaml as a nested stack. The parent stack will import the AzName, VpcId, and SubnetId values form the CreateVpc StackSet. When you use nested stacks the stack template must be in an S3 bucket in the same region. Next, download this file to your workstation (right click and save as) 
 https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/LampParent.yaml. The file uses the ImportValue intrinsic function for AzName, VpcId, and SubnetId from the CreateVpc StackSet in the region.
 
 Let’s set up an S3 bucket. Navigate to S3 and create a bucket. Upload the Lamp.yaml file to the bucket and copy the Object URL in the overview tab. Once one has copied the Object URL, open LampParent.yaml in a text editor. Replace the S3 Object URL in the resources section with the one that was copied. When ready, save the edited LampParent.yaml file.
@@ -182,7 +182,7 @@ After deployment completes, click the outputs tab and then click on the LampInst
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/LampParent_Working_Test_Webpage.png?raw=true)
 
-Once it is confirmed to be working, delete the LampParent Stack, this will also delete the nested stack. Next, it’s time to have AWS CloudFormation generate random string passwords with a minimum length of eight alphabetic characters. To get started, download the Random.yaml file to your workstation: https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Random.yaml. This will allow a Lambda function to create a password. 
+Once it is confirmed to be working, delete the LampParent Stack, this will also delete the nested stack. Next, it’s time to have AWS CloudFormation generate random string passwords with a minimum length of eight alphabetic characters. To get started, download the Random.yaml file to your workstation (right click and save as) https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/Random.yaml. This will allow a Lambda function to create a password. 
 
 Open the updated LampParent.yaml file in a text editor and remove the entire parameters section. Then insert all of the Random.yaml file contents into the LampParent.yaml file just below the Resources line.
 
