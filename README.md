@@ -30,9 +30,10 @@ Once the stack completes, navigate to the IAM console and click on roles in the 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/AWS_CloudFormation_StackSet_Execution_Role.png?raw=true)
 
 If the role doesn’t exist, navigate to the CloudFormation console. Make sure that one is in the administrative region and click create stack. For the specify template section, select template is ready and amazon S3 URL like before. Then paste the following URL into the Amazon S3 URL box: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml. After it’s ready click next.
+
 For the specify stack details page enter StacksetExecutionRole as the stack name. This time, one needs to enter the IAM account ID number in the parameters box and then click next.
 
-![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/StackSet_Execution_Role_Specify_Stack_Details.png?raw=true)
+![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/StackSet_Execution_Role_Specify_Stack_Details_2.png?raw=true)
 
 Leave default settings on the configure stack options page and click next. On the review page check the acknowledgement box and click create stack.
 
