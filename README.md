@@ -92,7 +92,7 @@ This time the StackSet deployment will succeed. Check the EnableCloudTrail opera
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/EnableCloudTrail_Create_Complete_Oregon.png?raw=true)
 
-Once the EnableCloudTrail StackSet is complete it is time to create the CreateVPC StackSet. First download this file to ones workstation (right click and save as) https://github.com/aws-samples/aws-cloudformation-workshops/raw/master/workshop_1/CreateVpc.yaml. Make sure the file ends with the extension yaml. Once the file is downloaded, navigate to the administrative region in AWS CloudFormation and click on create stack. Note, do not click on create StackSet. On the specify template page, select template is ready and click on upload a template file. Choose the yaml file that was just downloaded and click next.
+Once the EnableCloudTrail StackSet is complete it is time to create the CreateVPC StackSet. First download this file to ones workstation (right click and save as) https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVpc.yaml. Make sure the file ends with the extension yaml. Once the file is downloaded, navigate to the administrative region in AWS CloudFormation and click on create stack. Note, do not click on create StackSet. On the specify template page, select template is ready and click on upload a template file. Choose the yaml file that was just downloaded and click next.
 
 ![alt text](https://github.com/doyle199/AWS-CloudFormation-Multi-region-Deployment/blob/master/CreateVPC_Specify_Tempalte.png?raw=true)
 
